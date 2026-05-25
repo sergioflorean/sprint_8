@@ -28,6 +28,15 @@ const items = [
     },
 ];
 // ==========================================
+// ELEMENTOS GLOBALES DEL POPUP
+// ==========================================
+//popup principal 
+const popupElement = document.querySelector(".popup");
+//imagen dentro del popup 
+const popupImage = popupElement.querySelector(".popup__image");
+//boton de cierre del popup
+const popupCloseButton = popupElement.querySelector(".popup__close");
+// ==========================================
 // CLASE PADRE CARD
 // ==========================================
 // Esta clase contiene la lógica compartida
@@ -71,6 +80,35 @@ class Card {
             .cloneNode(true);
         return cardElement;
     }
+    // ==========================================
+    // ABRIR POPUP
+    // ==========================================
+    // Usamos función flecha para no perder
+    // el contexto de "this"
+    handleOpenPopup = () => {
+        const cardImage = this.element.querySelector(".card__image");
+        popupImage.src = cardImage.src;
+        popupImage.alt = cardImage.alt;
+        popupElement.classList.add("popup_is-opened");
+    };
+    // ==========================================
+    // CERRAR POPUP
+    // ==========================================
+    // Usamos función flecha para no perder
+    // el contexto de "this"
+    handleClosePopup = () => {
+        popupImage.src = "";
+        popupElement.classList.remove("popup_is-opened");
+    };
+    // ==========================================
+    // EVENT LISTENERS
+    // ==========================================
+    setEventListeners() {
+        // Escucha el click en la imagen para abrir el popup
+        this.element.addEventListener("click", this.handleOpenPopup);
+        // Escucha el click en el botón de cierre del popup
+        popupCloseButton.addEventListener("click", this.handleClosePopup);
+    }
 }
 // ==========================================
 // CLASE HIJA DEFAULTCARD
@@ -92,6 +130,7 @@ class DefaultCard extends Card {
     }
     generateCard() {
         this.element = this.getTemplate();
+        this.setEventListeners();
         const cardImage = this.element.querySelector(".card__image");
         const cardTitle = this.element.querySelector(".card__title");
         //inserta datos 
@@ -136,6 +175,7 @@ class HorizontalCard extends Card {
     generateCard() {
         // Obtiene una copia del template HTML
         this.element = this.getTemplate();
+        this.setEventListeners();
         // ==========================================
         // SELECCIÓN DE ELEMENTOS
         // ==========================================
@@ -178,20 +218,22 @@ const renderElements = (isGrid) => {
     });
 };
 renderElements(false);
+// ==========================================
+// BOTONES DE CAMBIO DE VISTA
+// ==========================================
+//boton para cuadricula grid 
+const defaultCardButton = document.querySelector(".filter__button_type_grid");
+//boton para lista horizontal
+const horizontalCardButton = document.querySelector(".filter__button_type_column");
+// ==========================================
+// EVENTOS DE LOS BOTONES
+// ==========================================
+//cambia a vista de cuadricula
+defaultCardButton.addEventListener("click", () => {
+    renderElements(true);
+});
+//cambia a vista de lista horizontal
+horizontalCardButton.addEventListener("click", () => {
+    renderElements(false);
+});
 export {};
-// // Recorremos el array de productos
-// items.forEach((item) => {
-//   // Creamos una nueva tarjeta horizontal
-//   const card = new HorizontalCard(
-//     item,
-//     "#horizontal-card",
-//   );
-//   // Generamos el HTML de la tarjeta
-//   const cardElement = card.generateCard();
-//   // Buscamos el contenedor principal
-//   const listContainer = document.querySelector(
-//     ".card-list__items",
-//   ) as HTMLElement;
-//   // Insertamos la tarjeta en el DOM
-//   listContainer.append(cardElement);
-// });
