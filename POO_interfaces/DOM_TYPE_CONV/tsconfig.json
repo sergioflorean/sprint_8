@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     // File Layout
-    // "rootDir": "./src",
-    // "outDir": "./public",
+    "rootDir": "./src",
+    "outDir": "./public",
 
     // Environment Settings
     "module": "es6",
