@@ -69,3 +69,19 @@ export const defaultCardButton = document.querySelector(
 export const horizontalCardButton = document.querySelector(
     ".filter__button_type_column",
 ) as HTMLButtonElement;
+
+
+
+export const filterButtons = [
+  {
+    buttonClass: "filter__button_type_grid",
+    isGrid: true,
+  },
+  {
+    buttonClass: "filter__button_type_column",
+    isGrid: false,
+  },
+];
+
+export const filterListSelector = ".filter";
+export const filterButtonTemplate = "#filter-button";
